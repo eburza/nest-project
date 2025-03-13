@@ -7,14 +7,23 @@ export enum UserRole {
   ENGINEER = 'ENGINEER',
   ADMIN = 'ADMIN',
 }
+
 // create user data transfer object
 export class CreateUserDto {
-  @IsString()
-  @IsNotEmpty()
+  @IsString({
+    message: 'Name must be a string',
+  })
+  @IsNotEmpty({
+    message: 'Name is required',
+  })
   name: string;
 
-  @IsEmail()
-  @IsNotEmpty()
+  @IsEmail(undefined, {
+    message: 'Email must be a valid email address',
+  })
+  @IsNotEmpty({
+    message: 'Email is required',
+  })
   email: string;
 
   @IsEnum(UserRole, {
