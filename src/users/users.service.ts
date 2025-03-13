@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRole } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -10,37 +11,37 @@ export class UsersService {
       id: 1,
       name: 'Leanne Graham',
       email: 'Sincere@april.biz',
-      role: 'INTERN',
+      role: UserRole.INTERN,
     },
     {
       id: 2,
       name: 'Ervin Howell',
       email: 'Shanna@melissa.tv',
-      role: 'INTERN',
+      role: UserRole.INTERN,
     },
     {
       id: 3,
       name: 'Clementine Bauch',
       email: 'Nathan@yesenia.net',
-      role: 'ENGINEER',
+      role: UserRole.ENGINEER,
     },
     {
       id: 4,
       name: 'Patricia Lebsack',
       email: 'Julianne.OConner@kory.org',
-      role: 'ENGINEER',
+      role: UserRole.ENGINEER,
     },
     {
       id: 5,
       name: 'Chelsey Dietrich',
       email: 'Lucio_Hettinger@annie.ca',
-      role: 'ADMIN',
+      role: UserRole.ADMIN,
     },
   ];
 
   // create methods
   // find all users
-  findAll(role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+  findAll(role?: UserRole) {
     // check if role is passed
     if (role) {
       return this.users.filter((user) => user.role === role); // onlky return users, with role that wass passed in
