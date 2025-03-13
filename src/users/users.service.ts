@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -37,11 +39,9 @@ export class UsersService {
   ];
 
   // create methods
-  // we name the methods after the routes we have in the controller
-
   // find all users
   findAll(role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
-    //check if role is passed
+    // check if role is passed
     if (role) {
       return this.users.filter((user) => user.role === role); // onlky return users, with role that wass passed in
     }
@@ -55,16 +55,12 @@ export class UsersService {
   }
 
   // create user
-  create(user: {
-    name: string;
-    email: string;
-    role: 'INTERN' | 'ENGINEER' | 'ADMIN';
-  }) {
+  create(createUserDto: CreateUserDto) {
     // generate id as app is not connected to database yet
     const usersByHighestId = [...this.users].sort((a, b) => b.id - a.id);
     const newUser = {
       id: usersByHighestId[0].id + 1,
-      ...user,
+      ...createUserDto,
     };
 
     this.users.push(newUser);
@@ -72,19 +68,12 @@ export class UsersService {
   }
 
   // update user
-  update(
-    id: number,
-    updatedUser: {
-      name?: string;
-      email?: string;
-      role?: 'INTERN' | 'ENGINEER' | 'ADMIN';
-    },
-  ) {
+  update(id: number, updateUserDto: UpdateUserDto) {
     this.users = this.users.map((user) => {
       if (user.id === id) {
         return {
           ...user,
-          ...updatedUser,
+          ...updateUserDto,
         };
       }
       return user;
