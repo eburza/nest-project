@@ -1,6 +1,7 @@
 // disable no-unsafe-call for decorators because they are not supported by class-validator
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export enum UserRole {
   INTERN = 'INTERN',
@@ -27,8 +28,10 @@ export class CreateUserDto {
   email: string;
 
   @IsEnum(UserRole, {
-    message: 'Role must be either INTERN, ENGINEER or ADMIN', // custom error message
+    message: 'Role must be either INTERN, ENGINEER or ADMIN',
   })
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+  @Transform(({ value }) => value?.toUpperCase())
   @IsNotEmpty()
   role: UserRole;
 }
