@@ -43,15 +43,16 @@ export class UsersService {
   // create methods
   // find all users
   findAll(role?: UserRole) {
-    // check if role is passed
     if (role) {
-      const filteredUsers = this.users.filter((user) => user.role === role); // onlny return users, with role that wass passed in
+      const filteredUsers = this.users.filter((user) => {
+        return user.role === role;
+      });
       if (filteredUsers.length === 0) {
         throw new NotFoundException(`No users found with role ${role}`);
       }
       return filteredUsers;
     }
-    return this.users; // if no role is passed retur all users
+    return this.users;
   }
 
   // find one user
