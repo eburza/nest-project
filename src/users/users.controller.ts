@@ -23,7 +23,7 @@ export class UsersController {
 
   @Get(':id') // GET /users/:id
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id); // unary plus (+) operator convert operand into a number, if it isn't already
+    return this.usersService.findOne(id);
   }
 
   @Post() // POST /user
