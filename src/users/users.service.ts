@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRole } from './dto/create-user.dto';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
@@ -44,7 +45,11 @@ export class UsersService {
   findAll(role?: UserRole) {
     // check if role is passed
     if (role) {
-      return this.users.filter((user) => user.role === role); // onlky return users, with role that wass passed in
+      const filteredUsers = this.users.filter((user) => user.role === role); // onlny return users, with role that wass passed in
+      if (filteredUsers.length === 0) {
+        throw new NotFoundException(`No users found with role ${role}`);
+      }
+      return filteredUsers;
     }
     return this.users; // if no role is passed retur all users
   }
@@ -52,6 +57,11 @@ export class UsersService {
   // find one user
   findOne(id: number) {
     const user = this.users.find((user) => user.id === id); // return user with given id
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     return user;
   }
 
