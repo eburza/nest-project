@@ -61,7 +61,7 @@ export class UsersService {
     role: 'INTERN' | 'ENGINEER' | 'ADMIN';
   }) {
     // generate id as app is not connected to database yet
-    const usersByHighestId = [...this.users].sort((a, b) => (b.id = a.id));
+    const usersByHighestId = [...this.users].sort((a, b) => b.id - a.id);
     const newUser = {
       id: usersByHighestId[0].id + 1,
       ...user,
