@@ -7,6 +7,7 @@ import {
   Param,
   Body,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
@@ -21,8 +22,8 @@ export class UsersController {
   }
 
   @Get(':id') // GET /users/:id
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id); // unary plus (+) operator convert operand into a number, if it isn't already
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findOne(id); // unary plus (+) operator convert operand into a number, if it isn't already
   }
 
   @Post() // POST /user
@@ -39,7 +40,7 @@ export class UsersController {
 
   @Patch(':id') // PATCH /users/:id
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body()
     userUpdate: {
       name?: string;
@@ -51,7 +52,7 @@ export class UsersController {
   }
 
   @Delete(':id') // DELETE /users/:id
-  remove(@Param('id') id: string) {
-    return this.usersService.delete(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.delete(id);
   }
 }
