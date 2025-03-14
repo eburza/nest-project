@@ -1,10 +1,8 @@
-// remove it after testing
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { UserRole } from 'src/users/dto/create-user.dto';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
+
 @Injectable()
 export class EmployeesService {
   // inject database service
@@ -12,26 +10,49 @@ export class EmployeesService {
 
   // create employee
   async create(createEmployeeDto: Prisma.EmployeeCreateInput) {
-    return 'This action adds a new employee';
+    return this.databaseService.employee.create({
+      data: createEmployeeDto,
+    });
   }
 
   // find all employees
   async findAll(role?: UserRole) {
-    return `This action returns all employees`;
+    // if role is provided, find all employees with the given role
+    if (role) {
+      return this.databaseService.employee.findMany({
+        where: {
+          role,
+        },
+      });
+    }
+    return this.databaseService.employee.findMany();
   }
 
   // find one employee
   async findOne(id: number) {
-    return `This action returns a #${id} employee`;
+    return this.databaseService.employee.findUnique({
+      where: {
+        id, // because key and value are the same => id: id
+      },
+    });
   }
 
   // update employee
   async update(id: number, updateEmployeeDto: Prisma.EmployeeUpdateInput) {
-    return `This action updates a #${id} employee`;
+    return this.databaseService.employee.update({
+      where: {
+        id,
+      },
+      data: updateEmployeeDto, // updateEmployeeDto is the data to update
+    });
   }
 
   // remove employee
   async remove(id: number) {
-    return `This action removes a #${id} employee`;
+    return this.databaseService.employee.delete({
+      where: {
+        id,
+      },
+    });
   }
 }
