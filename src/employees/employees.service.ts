@@ -1,26 +1,37 @@
+// remove it after testing
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
-
+import { UserRole } from 'src/users/dto/create-user.dto';
+import { Prisma } from '@prisma/client';
+import { DatabaseService } from 'src/database/database.service';
 @Injectable()
 export class EmployeesService {
-  create(createEmployeeDto: CreateEmployeeDto) {
+  // inject database service
+  constructor(private readonly databaseService: DatabaseService) {}
+
+  // create employee
+  async create(createEmployeeDto: Prisma.EmployeeCreateInput) {
     return 'This action adds a new employee';
   }
 
-  findAll() {
+  // find all employees
+  async findAll(role?: UserRole) {
     return `This action returns all employees`;
   }
 
-  findOne(id: number) {
+  // find one employee
+  async findOne(id: number) {
     return `This action returns a #${id} employee`;
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
+  // update employee
+  async update(id: number, updateEmployeeDto: Prisma.EmployeeUpdateInput) {
     return `This action updates a #${id} employee`;
   }
 
-  remove(id: number) {
+  // remove employee
+  async remove(id: number) {
     return `This action removes a #${id} employee`;
   }
 }
